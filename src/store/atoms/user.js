@@ -1,9 +1,10 @@
 import { atom } from "recoil";
 
 export const userState = atom({
-  key: 'userState',
+  key: "userState",
   default: {
-    isLoading: true,
-    userEmail: null
-  }
+    email: localStorage.getItem('email'),
+    username: localStorage.getItem('email')?.split('@')[0].toUpperCase(),
+    isLoggedIn: localStorage.getItem('isLoggedIn') !== null,
+  },
 });
