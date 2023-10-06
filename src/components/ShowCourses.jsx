@@ -16,6 +16,7 @@ const coursesState = atom({
 });
 
 function ShowCourses() {
+  const navigate = useNavigate();
   const [courses, setCourses] = useRecoilState(coursesState);
   const [open] = useRecoilState(openState);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +38,8 @@ function ShowCourses() {
       });
   }, []);
 
-  return ( 
+  return (
+    <Main open={open}>
       <Typography
         variant="h4"
         component="div"
@@ -64,7 +66,8 @@ function ShowCourses() {
             : "Oops! No course is currently offered. Return later!"
         }
       </div>
-    );
+    </Main>
+  );
 }
 
 export default ShowCourses;
