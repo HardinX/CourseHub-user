@@ -1,0 +1,8 @@
+.all-courses {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  margin-top: 30px;
+  padding-left: 200px;
+}

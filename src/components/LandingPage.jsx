@@ -1,12 +1,13 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {userLoggedInState } from "../store/selectors/userLoggedIn";
+import { useRecoilValue } from "recoil";
+import { userEmailState } from "../store/selectors/userEmailState";
+import { userLoggedInState } from "../store/selectors/userLoggedIn";
 
 function LandingPage (){
    const navigate = useNavigate()
-   const [isLoggedIn] = useRecoilState(userLoggedInState)
-   console.log(isLoggedIn)
+   const userEmail = useRecoilValue(userEmailState);
+   const userLoding = useRecoilValue(userLoggedInState)
 
     return <div >
       <Grid container style= {{padding: "5vw"}}>
@@ -18,16 +19,33 @@ function LandingPage (){
             <Typography variant="h5" style={{ color: "white" }}>
                 A place where you own Learn your Skills
             </Typography>
-            {!isLoggedIn && <div style={{display: "flex", marginTop: 20}}>
+            {!userLoding && !userEmail && <div style={{display: "flex", marginTop: 20}}>
                         <div style={{marginRight: 10}}>
                         <h1 className="landing-page">
                           A place to where you Learn skills
                         </h1>
                         <Button
-                        className="btn-style"
-                        onClick={() => navigate(isLoggedIn? "/courses": "/login")}>
-                          {isLoggedIn ? "View Courses" : "Login Here"}
-                        </Button>
+                              sx={{bgcolor:"#053B50",":hover":{
+                                bgcolor:"#115469"
+                                }}}
+                                size={"large"}
+                                variant={"contained"}
+                                onClick={() => {
+                                    navigate("/register")
+                                }}
+                            >SignUp</Button>
+                        </div>
+                        <div>
+                            <Button
+                            sx={{bgcolor:"#053B50",":hover":{
+                              bgcolor:"#115469"
+                              }}}
+                                size={"large"}
+                                variant={"contained"}
+                                onClick={() => {
+                                    navigate("/login")
+                                }}
+                            >Sign In</Button>
                         </div>
                     </div>}
           </div>

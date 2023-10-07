@@ -5,10 +5,13 @@ import ShowCourses from "./components/ShowCourses";
 import CoursePage from "./components/CoursePage";
 import Purchased from "./components/Purchased";
 import LandingPage from "./components/LandingPage";
+import { AppBar } from "@mui/material";
+import { Toaster } from 'react-hot-toast';
 
 function App(){
   return (
     <Router>
+      <AppBar />
       <Routes>
         <Route path="/" element= {< LandingPage/>}/>
         <Route path="/login" element= {<LoginPage />}/>
@@ -17,6 +20,7 @@ function App(){
         <Route path ="/courses/:id" element ={<CoursePage />} />
         <Route path ="/courses/purchased" element ={<Purchased />} />
       </Routes>
+      <Toaster />
     </Router>
   )
 }

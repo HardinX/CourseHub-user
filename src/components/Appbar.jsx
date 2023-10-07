@@ -61,9 +61,8 @@ export default function Appbar(){
                   localStorage.setItem("token", null);
                    window.location ="/"
                   setUser({
-                    email: localStorage.getItem('email'),
-                    username: localStorage.getItem('email')?.split('@')[0].toUpperCase(),
-                    isLoggedIn: localStorage.getItem('isLoggedIn') !== null,
+                    isLoading: true,
+                    userEmail: null
                   });
                 }}
               > Logout

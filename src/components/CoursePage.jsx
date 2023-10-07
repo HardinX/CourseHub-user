@@ -103,7 +103,7 @@ return(
             margin: "10px"
           }}
           >
-           Purchased
+           View Content
           </Button>
           </div>
         )}

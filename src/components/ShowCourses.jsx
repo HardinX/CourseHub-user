@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import CourseCard from "./CourseCard";
-import Button from "@mui/material/Button";
-import CircularProgress from '@mui/joy/CircularProgress';
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
 import { atom, useRecoilState } from "recoil";
 import axios from "axios";
-import { Main, openState } from "./AppNavBar";
-import "./coursesStyles.css";
 
 const coursesState = atom({
   key: "coursesState",
