@@ -17,7 +17,14 @@ router.post('/signup', async (req, res) => {
 });
 
 router.get("/me", authenticateJwt, (req, res) => {
-  res.json(req.user.username);
+  const user =  User.findOne({username: req.user.username});
+  if(!user) {
+    res.status(403).json({message: "User doesn't exist"})
+    return
+  }
+  res.json({
+    username: user.username
+  })
 });
 
 router.post('/login', async (req, res) => {

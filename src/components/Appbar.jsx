@@ -61,7 +61,7 @@ export default function Appbar(){
                   localStorage.setItem("token", null);
                    window.location ="/"
                   setUser({
-                    isLoading: true,
+                    isLoading: false,
                     userEmail: null
                   });
                 }}

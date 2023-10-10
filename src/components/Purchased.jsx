@@ -26,7 +26,8 @@ function PurchasedCourses(){
  }, []);
 
  return (
-  <Main open={open}>
+  <div>
+    open={open}
   <Typography
     variant="h4"
     component="div"
@@ -52,8 +53,8 @@ function PurchasedCourses(){
         : "No course has yet been purchased"
     }
   </div>
-</Main>
- );
+  </div> 
+  );
 }
 
 export default PurchasedCourses;

@@ -33,8 +33,10 @@ function ShowCourses() {
       });
   }, []);
 
-  return (
-    <Main open={open}>
+  return (<div>
+
+
+     open={open}
       <Typography
         variant="h4"
         component="div"
@@ -61,7 +63,7 @@ function ShowCourses() {
             : "Oops! No course is currently offered. Return later!"
         }
       </div>
-    </Main>
+      </div>
   );
 }
 
