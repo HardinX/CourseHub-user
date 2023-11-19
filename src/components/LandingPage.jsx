@@ -2,12 +2,12 @@ import { Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userEmailState } from "../store/selectors/userEmailState";
-import { userLoggedInState } from "../store/selectors/userLoggedIn";
+import { userLoggedInState } from "../store/selectors/userIsLoggedIn";
 
 function LandingPage (){
    const navigate = useNavigate()
    const userEmail = useRecoilValue(userEmailState);
-   const userLoding = useRecoilValue(userLoggedInState)
+   const userLoding = useRecoilValue(userLoggedInState);
 
     return <div >
       <Grid container style= {{padding: "5vw"}}>
@@ -17,9 +17,9 @@ function LandingPage (){
               CourseHub User
             </Typography>
             <Typography variant="h5" style={{ color: "white" }}>
-                A place where you own Learn your Skills
+                A place where you Upskill yourself
             </Typography>
-            {!userLoding && !userEmail && <div style={{display: "flex", marginTop: 20}}>
+            {!userEmail && !userEmailState && <div style={{display: "flex", marginTop: 20}}>
                         <div style={{marginRight: 10}}>
                         <h1 className="landing-page">
                           A place to where you Learn skills

@@ -50,14 +50,10 @@ import { userState } from '../../src/store/atoms/user';
                     password: password
                   });
                     const data = res.data;
-                    setUser({
-                      isLoading: true,
-                      userEmail: email
-                    })
 
                     localStorage.setItem("token", data.token)
                     // window.location ="/"
-                    setUser({userEmail: email, isLoading: false})
+                    setUser({ Email : email, isLoggedIn: false})
                     navigate("/courses")
                 }}
             >Sign up</Button>

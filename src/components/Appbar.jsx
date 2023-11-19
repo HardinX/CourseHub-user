@@ -1,12 +1,20 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { userLoggedInState } from "../store/selectors/userLoggedIn";
 import { userState } from "../store/atoms/user";
+import { userEmailState } from "../store/selectors/userEmailState";
+import { userLoggedInState } from "../store/selectors/userIsLoggedIn";
 
 export default function Appbar(){
-  const userEmail =useRecoilValue(userLoggedInState)
+  const userLoading = useRecoilValue(userLoggedInState)
+  const userEmail =useRecoilValue(userEmailState)
   const setUser = useRecoilState(userState)
   const navigate = useNavigate();
+
+  if(userLoading){
+    return<div>
+      <h1>loading</h1>
+    </div>
+  }
 
   if (userEmail) {
     return (
@@ -61,8 +69,8 @@ export default function Appbar(){
                   localStorage.setItem("token", null);
                    window.location ="/"
                   setUser({
-                    isLoading: false,
-                    userEmail: null
+                    isLoggedIn: false,
+                    email: null
                   });
                 }}
               > Logout

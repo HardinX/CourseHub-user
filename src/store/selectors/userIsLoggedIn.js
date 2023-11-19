@@ -4,8 +4,8 @@ import { userState } from "../atoms/user";
 export const userLoggedInState = selector({
   key: "userLoggedInState",
   get: ({ get }) => {
-    const state = get(userState);
+    const user = get(userState);
     
-    return state.isLoading;
+    return user.isLoading;
   },
 });
