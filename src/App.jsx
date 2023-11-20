@@ -1,7 +1,7 @@
 import { Route, Router, Routes} from "react-router-dom";
 import React, { useEffect } from 'react';
 import LoginPage from "./components/LoginPage";
-import SignupPage from "./components/SignupPage";
+import RegisterPage from "./components/RegisterPage";
 import ShowCourses from "./components/ShowCourses";
 import CoursePage from "./components/CoursePage";
 import Purchased from "./components/Purchased";
@@ -23,7 +23,7 @@ function App(){
       <Routes>
         <Route path="/" element= {< LandingPage/>}/>
         <Route path="/login" element= {<LoginPage />}/>
-        <Route path = "/register" element={<SignupPage />}/>
+        <Route path="/register" element={<RegisterPage />} />
         <Route path ="/courses" element = {<ShowCourses />} />
         <Route path ="/courses/:id" element ={<CoursePage />} />
         <Route path ="/courses/purchased" element ={<Purchased />} />

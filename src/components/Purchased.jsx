@@ -5,7 +5,6 @@ import axios from "axios";
 import { Typography } from "@mui/material";
 import "./courseStyle.css";
 function PurchasedCourses(){
- const [open, setOpen] = useRecoilState(openState);
  const [purCourses, setPurchasedCourses] = useState([]);
  const [isLoading, setIsLoading] = userState(true);
 
@@ -27,7 +26,6 @@ function PurchasedCourses(){
 
  return (
   <div>
-    open={open}
   <Typography
     variant="h4"
     component="div"

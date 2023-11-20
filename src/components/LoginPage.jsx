@@ -34,7 +34,7 @@ function LoginPage() {
               localStorage.setItem("token", data.token);
               setUser({
                   userEmail: email,
-                  isLoading: false
+                  isLoading: true
               });
               navigate("/courses");
           } else {
