@@ -95,7 +95,7 @@ return(
           <img src={courses.imageLink}
           alt={courses.imageLink}
           width={"200px"}
-          style={( borderRadius = "20px")} 
+          style={{ borderRadius : "20px"}} 
           />
         </div>
         <div>
@@ -110,7 +110,7 @@ return(
           {!isPurchased ? (
             <Button
             style={{
-              backgroundColor: purchasedCourse ? "green" : "red",
+              backgroundColor: isPurchased ? "green" : "red",
               padding: "10px",
               borderRadius:"5%",
               fontWeight: "500",
@@ -123,7 +123,7 @@ return(
           ) : (
             <div><Button
             style={{
-            backgroundColor: purchasedCourse ? "green" : "red",
+            backgroundColor: isPurchased ? "green" : "red",
             padding :"10px ",
             borderRadius:"5%",
             fontSize: "50px",

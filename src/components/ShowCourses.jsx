@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Typography } from "@mui/material";
+import { Card, Skeleton, Typography } from "@mui/material";
 import "../index.css";
 import { atom, useRecoilState } from "recoil";
 import axios from "axios";
+import CourseCard from "./CourseCard";
 
 const coursesState = atom({
   key: "coursesState",

@@ -9,7 +9,7 @@ import { userState } from '../../src/store/atoms/user';
 function LoginPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [error, setError] = userState("")
+    const [error, setError] = useState("")
     const navigate = useNavigate()
     const setUser = useSetRecoilState(userState);
 
@@ -44,7 +44,7 @@ function LoginPage() {
           setError("An error occurred while logging in."); // Handle network errors
       }
   };
-    if({error}){
+    if(error){
       return <div style={{color: "red"}}>{error}</div>
     }
     else {

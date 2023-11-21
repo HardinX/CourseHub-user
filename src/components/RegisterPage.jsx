@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState   } from 'recoil';
 import { userState } from '../../src/store/atoms/user';
-  function SignupPage(){
+
+  function RegisterPage(){
   const [email , setEmail] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
@@ -63,4 +64,4 @@ import { userState } from '../../src/store/atoms/user';
 
 }
 
-export default SignupPage;
+export default RegisterPage;

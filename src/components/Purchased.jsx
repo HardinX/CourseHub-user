@@ -1,12 +1,12 @@
-import { useRecoilState } from "recoil";
-import { openState, userState } from "../store/atoms/user";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography } from "@mui/material";
 import "./courseStyle.css";
+import { CourseCard } from "./CourseCard"; // Update the path as needed
+
 function PurchasedCourses(){
  const [purCourses, setPurchasedCourses] = useState([]);
- const [isLoading, setIsLoading] = userState(true);
+ const [isLoading, setIsLoading] = useState(true);
 
  useEffect( () =>{
   axios.get("http://localhost:3000/users/purchasedCourses", {

@@ -19,7 +19,7 @@ function LandingPage (){
             <Typography variant="h5" style={{ color: "white" }}>
                 A place where you Upskill yourself
             </Typography>
-            {!userEmail && !userEmailState && <div style={{display: "flex", marginTop: 20}}>
+            {!userEmail && !userLoding && <div style={{display: "flex", marginTop: 20}}>
                         <div style={{marginRight: 10}}>
                         <h1 className="landing-page">
                           A place to where you Learn skills

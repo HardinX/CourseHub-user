@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { userState } from "../store/atoms/user";
 import { userEmailState } from "../store/selectors/userEmailState";
 import { userLoggedInState } from "../store/selectors/userIsLoggedIn";
+import Typography from "@mui/material/Typography";
 
 export default function Appbar(){
   const userLoading = useRecoilValue(userLoggedInState)
@@ -66,8 +67,8 @@ export default function Appbar(){
                 variant={"contained"}
                 sx={{ bgcolor: "#053B50" }}
                 onClick={() => {
-                  localStorage.setItem("token", null);
-                   window.location ="/"
+                  localStorage.removeItem("token");
+                  navigate("/")
                   setUser({
                     isLoggedIn: false,
                     email: null
@@ -92,7 +93,7 @@ export default function Appbar(){
 
   }}>
       <div>
-        <Typography>CourseHub</Typography>
+        <Typography variant="h6">CourseHub</Typography>
       </div>
       <div style={{ display: "flex" }}>
         <div style={{ marginRight: 10 }}>

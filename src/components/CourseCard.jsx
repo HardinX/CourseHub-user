@@ -8,7 +8,7 @@ import { useState } from "react";
 
 function CourseCard(props) {
   const navigate = useNavigate();
-  const [isMoveOver, setIsMoueOver] = useState(false);
+  const [isMouseOver, setIsMoueOver] = useState(false);
   return (
     <div>
       <Card
@@ -18,7 +18,7 @@ function CourseCard(props) {
           flex: 1,
           flexDirection: "column",
           fontFamily: "Arial, sans-serif",
-          border: isMoveOver ? "1px solid #bc1c44" : "1px solid lightsteelblue",
+          border: isMouseOver ? "1px solid #bc1c44" : "1px solid lightsteelblue",
         }}
         onMouseOver={() => setIsMoueOver(true)}
         onMouseLeave={() => setIsMoueOver(false)}
@@ -45,7 +45,7 @@ function CourseCard(props) {
               component="div"
               style={{
                 fontWeight: "700",
-                color: isMoveOver && "#bc1c44",
+                color: isMouseOver && "#bc1c44",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 display: "-webkit-box",
