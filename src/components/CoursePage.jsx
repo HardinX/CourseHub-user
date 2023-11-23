@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Card, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -114,7 +114,7 @@ function Courses() {
         </div>
         <br></br>
         <div>
-          <h3 className="description">{course?.description}</h3>
+          <h3 className="course-des">{course?.description}</h3>
         </div>
 
         <div>
@@ -122,10 +122,10 @@ function Courses() {
             <Button
               style={{
                 backgroundColor: "#bc1c44",
-                padding: "10px 20px",
-                borderRadius: "50%",
+                padding: "10px 10px",
+                borderRadius: "15%",
                 fontWeight: "700",
-                fontSize: "50px",
+                fontSize: "20px",
               }}
               onClick={handleBuyNow}
             >

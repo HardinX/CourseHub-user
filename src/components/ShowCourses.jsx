@@ -4,6 +4,8 @@ import "../index.css";
 import { atom, useRecoilState } from "recoil";
 import axios from "axios";
 import CourseCard from "./CourseCard";
+import "./courseStyle.css"
+
 
 const coursesState = atom({
   key: "coursesState",
@@ -15,6 +17,7 @@ function ShowCourses() {
    const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get("http://localhost:3000/users/courses/", {
         headers: {
@@ -32,29 +35,29 @@ function ShowCourses() {
   }, []);
 
   return (<div>
-    <Card
-      style={{
-        margin: 10,
-        width: 300,
-        minHeight: 100,
-      }}
-    > <Typography
-            variant="h4"
-            component="div"
-            style={{
-              flexGrow: 1,
-              padding: "10px",
-              borderRadius: "4px",
-              fontWeight: "bold",
-              color: "#101460",
-              textAlign: "center",
-              marginTop: "70px",
-              marginLeft: "210px",
-            }}
-          >
-            All Courses
-          </Typography>
-          <div className="all-courses">
+    <Typography
+          variant="h4"
+          component="div"
+          style={{
+            padding: "10px",
+            borderRadius: "4px",
+            fontWeight: "bold",
+            color: "#101460",
+            textAlign: "center",
+            marginTop: "70px",
+            marginLeft: "210px",
+          }}
+        >
+          All Courses
+        </Typography>
+    {/* <Card
+      // style={{
+      //   margin: 10,
+      //   width: 1000,
+      //   minHeight: 100,
+      // }}
+    >     */}
+       <div className="all-courses">
           {isLoading ? (
             <div style={{ display: "flex", gap: "20px" }}>
               <Skeleton variant="rectangular" width={345} height={400} />
@@ -71,7 +74,7 @@ function ShowCourses() {
             </>
           )}
         </div>
-    </Card>
+    {/* </Card> */}
   </div>
   );
 }

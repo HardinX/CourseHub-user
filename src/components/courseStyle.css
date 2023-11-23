@@ -23,12 +23,13 @@
 .course-des {
   color: #101460;
   font-weight: bold;
+  font-size: 20px;
 }
 
 .text-container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 }
 
 @media (max-width: 480px) {

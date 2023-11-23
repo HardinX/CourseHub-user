@@ -5,10 +5,11 @@ import { userState } from "../store/atoms/user";
 // import { userLoggedInState } from "../store/selectors/userIsLoggedIn";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
+import { userEmailState } from "../store/selectors/userEmailState";
 
 export default function Appbar() {
   // const userLoading = useRecoilValue(userLoggedInState)
-  // const userEmail =useRecoilValue(userEmailState)
+   const userEmail =useRecoilValue(userEmailState)
   // const setUser = useRecoilState(userState)
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Appbar() {
   //   </div>
   // }
 
-  if (user.Email) {
+  if (userEmail || user.Email) {
     return (
       <div
         style={{
@@ -99,7 +100,7 @@ export default function Appbar() {
     );
   }
 
-  if (!user.Email) {
+  if (!userEmail) {
     return (
       <div
         style={{

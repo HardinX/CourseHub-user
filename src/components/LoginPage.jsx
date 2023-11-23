@@ -1,110 +1,147 @@
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import {Card, Typography} from "@mui/material";
-import {useState} from "react";
+import { Card, Typography, CircularProgress } from "@mui/material";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {useSetRecoilState} from "recoil";
-import { userState } from '../../src/store/atoms/user';
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState, useRecoilCallback } from "recoil";
+import { userState } from "../../src/store/atoms/user";
+import { toast } from "react-hot-toast";
+import "../index.css";
+
 function LoginPage() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [error, setError] = useState("")
-    const navigate = useNavigate()
-    const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useState({ email: "", password: "" });
+  const setUserRecoil = useSetRecoilState(userState);
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const handleLogin = async () => {
-      try {
-          const res = await axios.post(
-              "http://localhost:3000/users/login",
-              {
-                  username: email,
-                  password: password
-              },
-              {
-                  headers: {
-                      "Content-type": "application/json"
-                  }
-              }
-          );
-
-          const data = res.data;
-
-          if (data.success) {
-              localStorage.setItem("token", data.token);
-              setUser({
-                  userEmail: email,
-                  isLoading: true
-              });
-              navigate("/courses");
-          } else {
-              setError(data.message || "Login failed."); // Set error message
-          }
-      } catch (error) {
-          setError("An error occurred while logging in."); // Handle network errors
-      }
-  };
-    if(error){
-      return <div style={{color: "red"}}>{error}</div>
+  // Recoil callback for atomic state updates
+  const handleLogin = useRecoilCallback(({ set }) => async () => {
+    if (user.email.trim() === "" || user.password.trim() === "") {
+      setMessage("Email/password field cannot be empty");
+      return;
     }
-    else {
-    return <div>
-            <div style={{
-                paddingTop: 150,
-                marginBottom: 10,
-                display: "flex",
-                justifyContent: "center"
-            }}>
-                <Typography variant={"h6"}>
-                Welcome to Coursera. Login Below
-                </Typography>
-            </div>
-        <div style={{display: "flex", justifyContent: "center"}}>
-            <Card varint={"outlined"} style={{width: 400, padding: 20}}>
-                <TextField
-                    onChange={(evant11) => {
-                        let elemt = evant11.target;
-                        setEmail(elemt.value);
-                    }}
-                    fullWidth={true}
-                    label="Email"
-                    variant="outlined"
-                />
-                <br/><br/>
-                <TextField
-                    onChange={(e) => {
-                        setPassword(e.target.value);
-                    }}
-                    fullWidth={true}
-                    label="Password"
-                    variant="outlined"
-                    type={"password"}
-                />
-                <br/><br/>
 
-                <Button
-                    size={"large"}
-                    variant="contained"
-                    onClick={handleLogin}
-                > Login</Button>
-                <br></br>
-                <div>
-                  <h3 style={{fontWeight: "300"}}>
-                    New here? Click here to register new account
-                  </h3>
-                  <Button
-                  variant='contained'
-                  style={{backgroundColor: "#64CCC5"}}
-                  onClick={() =>{
-                    navigate("/register")
-                  }}>
-                    Register 
-                  </Button>
-                </div>
-            </Card>
-        </div>
+    try {
+      const res = await axios.post("http://localhost:3000/users/login", {
+        username: user.email,
+        password: user.password,
+      });
+
+      // Update Recoil state atomically
+      set(userState, (prev) => ({
+        ...prev,
+        email: user.email,
+        username: user.email.split("@")[0].toUpperCase(),
+        isLoggedIn: true,
+      }));
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("email", user.email);
+
+      setMessage("");
+      toast.success(res.data.message);
+      setIsLoading(false);
+      navigate("/courses");
+    } catch (err) {
+      console.log(err);
+      setMessage(err.response.data.message);
+      setIsLoading(false);
+    }
+  });
+
+  useEffect(() => {
+    // Check localStorage for previous login
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const userEmail = localStorage.getItem("email");
+
+    if (isLoggedIn && userEmail) {
+      setUserRecoil({
+        email: userEmail,
+        username: userEmail.split("@")[0].toUpperCase(),
+        isLoggedIn: true,
+      });
+      navigate("/courses");
+    }
+  }, [setUserRecoil, navigate]);
+
+  return (
+    <div>
+      <div
+        style={{
+          paddingTop: 150,
+          marginBottom: 10,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Typography variant={"h6"}>Welcome to Coursera. Login Below</Typography>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Card varint={"outlined"} style={{ width: 400, padding: 20 }}>
+          <TextField
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, email: e.target.value }))
+            }
+            fullWidth={true}
+            label="Email"
+            variant="outlined"
+          />
+          <br />
+          <br />
+          <TextField
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, password: e.target.value }))
+            }
+            fullWidth={true}
+            label="Password"
+            variant="outlined"
+            type="password"
+          />
+          <br />
+          <br />
+
+          {isLoading ? (
+            <Button
+              style={{ backgroundColor: "#101460" }}
+              className="button"
+              variant="contained"
+              onClick={handleLogin}
+            >
+              <CircularProgress size={25} />
+            </Button>
+          ) : (
+            <Button
+              style={{ backgroundColor: "#101460" }}
+              className="button"
+              variant="contained"
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          )}
+
+          <br></br>
+          <div>
+            <h3 style={{ fontWeight: "500" }}>
+              New here? Click here to register new account.
+            </h3>
+            <br />
+            <Button
+              style={{ backgroundColor: "#101460" }}
+              className="button"
+              variant="contained"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </Button>
+          </div>
+        </Card>
+      </div>
     </div>
-    }
-  }
+  );
+}
 
 export default LoginPage;

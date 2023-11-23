@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { CircularProgress, Skeleton, Typography } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 import "./courseStyle.css";
+import CourseCard from "./CourseCard";
 
 function PurchasedCourses() {
   const [purCourses, setPurchasedCourses] = useState([]);
