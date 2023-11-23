@@ -2,77 +2,111 @@ import { Box, Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
 import "./courseStyle.css";
+
 function Courses() {
   const [course, setCourse] = useState({});
   const [purchasedCourses, setPurchasedCourses] = useState([]);
   const [isPurchased, setIsPurchased] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
-  console.log("coursepage", id)
-  console.log("coursebuy", course)
-  useEffect(() =>{
-    setIsLoading(true);
 
-      axios.get(
-        `http://localhost:3000/users/courses/${id}`,
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+
+        const courseResponse = await axios.get(
+          `http://localhost:3000/users/courses/${id}`,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
           }
-        )
-         .then((res) => {
-          setCourse(res.data.course);
-          console.log("data.course", res.data.course)
-         })
-         .catch((err) => console.log(err));
+        );
 
+        setCourse(courseResponse.data.course);
 
-         axios.get("http://localhost:3000/users/purchasedCourses", {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            })
-            .then((res) => {
-              setPurchasedCourses(res.data.purchasedCourses);
-              setIsLoading(false)
-            })
-            .catch((err) => console.log(err));
-            setIsLoading(false)
-            }, [id]);
+        const purchasedCoursesResponse = await axios.get(
+          "http://localhost:3000/users/purchasedCourses",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
 
-useEffect(() =>{
-   // Check if the current course is purchased
-  const ans = purchasedCourses.some((item) => item._id === id);
-  setIsPurchased(ans)
-}, [id, purchasedCourses]);
+        setPurchasedCourses(purchasedCoursesResponse.data.purchasedCourses);
 
-if (isLoading) {
-  return(
-    <div 
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    const isCoursePurchased = purchasedCourses.some((item) => item._id === id);
+    setIsPurchased(isCoursePurchased);
+  }, [id, purchasedCourses]);
+
+  const handleBuyNow = async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.post(
+        `http://localhost:3000/users/courses/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+
+      toast.success(response.data.message);
+
+      setPurchasedCourses([...purchasedCourses, response.data.purchasedCourse]);
+      setIsPurchased(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "200px"
+          marginTop: "200px",
         }}
-        >
-          <Box sx={{ width: 300 }}>
+      >
+        <Box sx={{ width: 300 }}>
           <Skeleton />
           <Skeleton animation="wave" />
           <Skeleton animation={false} />
         </Box>
-    </div>
-  )
-}
-return(
+      </div>
+    );
+  }
+
+  return (
     <div className="single-course">
       <div className="text-container">
         <div>
-          <img src={course?.imageLink}
-                alt={course?.imageLink}
-          width={"200px"}
-          style={{ borderRadius : "20px"}} 
+          <img
+            src={course?.imageLink}
+            alt={course?.imageLink}
+            width={"200px"}
+            style={{ borderRadius: "20px" }}
           />
         </div>
         <div>
@@ -86,74 +120,50 @@ return(
         <div>
           {!isPurchased ? (
             <Button
-            style={{
-              backgroundColor: isPurchased ? "green" : "red",
-              padding: "10px",
-              borderRadius:"5%",
-              fontWeight: "500",
-              fontSize: "50px"
-            }}
-            onClick={() => {
-              setIsLoading(true);
-              axios
-                .post(
-                  `http://localhost:3000/users/courses/${id}`,
-                  {},
-                  {
-                    headers: {
-                      Authorization:
-                        "Bearer " + localStorage.getItem("token"),
-                    },
-                  }
-                )
-                .then((res) => {
-                  toast.success(res.data.message);
-                  setPurchasedCourses([
-                    ...purchasedCourses,
-                    res.data.purchasedCourse,
-                  ]);
-                  setIsPurchased(true);
-                  setIsLoading(false);
-                })
-                .catch((err) => {
-                  console.log(err);
-                  setIsLoading(false);
-                });
-            }}
+              style={{
+                backgroundColor: "#bc1c44",
+                padding: "10px 20px",
+                borderRadius: "50%",
+                fontWeight: "700",
+                fontSize: "50px",
+              }}
+              onClick={handleBuyNow}
             >
               BUY NOW @${course?.price}
             </Button>
           ) : (
-            <div><Button
-            style={{
-            backgroundColor: isPurchased ? "green" : "red",
-            padding :"10px ",
-            borderRadius:"5%",
-            fontSize: "50px",
-            fontWeight: 'bold'
-            }}
-            >
-              Purchased
-            </Button>
-            <Button
-            style={{
-              backgroundColor:'#f48fb1',
-              padding :"7px ",
-              borderRadius:"6%",
-              fontSize: "50px",
-              margin: "10px"
-            }}
-            >
-            View Content
-            </Button>
+            <div>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "green",
+                  padding: "10px 20px",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  borderRadius: "50px",
+                }}
+              >
+                Purchased
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#101460",
+                  padding: "10px 20px",
+                  fontWeight: "700",
+                  fontSize: "1rem",
+                  borderRadius: "50px",
+                  marginLeft: "20px",
+                }}
+              >
+                View Content
+              </Button>
             </div>
           )}
         </div>
       </div>
     </div>
-  )
+  );
 }
+
 export default Courses;
-
-
- 

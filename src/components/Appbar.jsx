@@ -1,23 +1,25 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../store/atoms/user";
-import { userEmailState } from "../store/selectors/userEmailState";
-import { userLoggedInState } from "../store/selectors/userIsLoggedIn";
+// import { userEmailState } from "../store/selectors/userEmailState";
+// import { userLoggedInState } from "../store/selectors/userIsLoggedIn";
 import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
 
-export default function Appbar(){
-  const userLoading = useRecoilValue(userLoggedInState)
-  const userEmail =useRecoilValue(userEmailState)
-  const setUser = useRecoilState(userState)
+export default function Appbar() {
+  // const userLoading = useRecoilValue(userLoggedInState)
+  // const userEmail =useRecoilValue(userEmailState)
+  // const setUser = useRecoilState(userState)
+  const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
-  if(userLoading){
-    return<div>
-      <h1>loading</h1>
-    </div>
-  }
+  // if(userLoading){
+  //   return<div>
+  //     <h1>loading</h1>
+  //   </div>
+  // }
 
-  if (userEmail) {
+  if (user.Email) {
     return (
       <div
         style={{
@@ -33,7 +35,15 @@ export default function Appbar(){
             navigate("/");
           }}
         >
-          <Typography variant={"h6"}>CourseHub</Typography>
+          <Typography
+            sx={{}}
+            onClick={() => {
+              navigate("/");
+            }}
+            variant={"h6"}
+          >
+            CourseHub
+          </Typography>
         </div>
         <div style={{ display: "flex" }}>
           <div style={{ marginRight: 10, display: "flex" }}>
@@ -68,13 +78,19 @@ export default function Appbar(){
                 sx={{ bgcolor: "#053B50" }}
                 onClick={() => {
                   localStorage.removeItem("token");
-                  navigate("/")
+                  localStorage.removeItem("isLoggedIn");
+                  localStorage.removeItem("email");
                   setUser({
+                    email: "",
+                    password: "",
+                    username: "",
                     isLoggedIn: false,
-                    email: null
                   });
+                  navigate("/");
                 }}
-              > Logout
+              >
+                {" "}
+                Logout
               </Button>
             </div>
           </div>
@@ -83,52 +99,63 @@ export default function Appbar(){
     );
   }
 
-  return (
-    <div style={{
-      display: "flex",
-      justifyContent: "space-between",
-      padding: "10px",
-      zIndex: 1,
-      overflow: "auto"
-
-  }}>
-      <div>
-        <Typography variant="h6">CourseHub</Typography>
-      </div>
-      <div style={{ display: "flex" }}>
-        <div style={{ marginRight: 10 }}>
-          <Button
-            variant={"contained"}
-            sx={{
-              bgcolor: "#053B50",
-              ":hover": {
-                bgcolor: "#115469",
-              },
-            }}
-            onClick={() => {
-              navigate("/register");
-            }}
-          >
-            Register
-          </Button>
-        </div>
+  if (!user.Email) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "10px",
+          zIndex: 1,
+          overflow: "auto",
+        }}
+      >
         <div>
-          <Button
-            variant={"contained"}
-            sx={{
-              bgcolor: "#053B50",
-              ":hover": {
-                bgcolor: "#115469",
-              },
-            }}
+          <Typography
+            sx={{}}
             onClick={() => {
-              navigate("/login");
+              navigate("/");
             }}
+            variant="h6"
           >
-            Login
-          </Button>
+            CourseHub
+          </Typography>
+        </div>
+        <div style={{ display: "flex" }}>
+          <div style={{ marginRight: 10 }}>
+            <Button
+              variant={"contained"}
+              sx={{
+                bgcolor: "#053B50",
+                ":hover": {
+                  bgcolor: "#115469",
+                },
+              }}
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              Signup
+            </Button>
+          </div>
+          <div>
+            <Button
+              variant={"contained"}
+              sx={{
+                bgcolor: "#053B50",
+                ":hover": {
+                  bgcolor: "#115469",
+                },
+              }}
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Signin
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
