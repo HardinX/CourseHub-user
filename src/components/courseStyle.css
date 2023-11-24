@@ -56,6 +56,11 @@
 }
 @media (min-width: 481) and (max-width: 1200) {
   .all-courses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    margin-top: 30px;
   }
   .course-title {
     font-size: 30px;
